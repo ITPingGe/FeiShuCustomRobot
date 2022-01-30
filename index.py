@@ -76,3 +76,6 @@ def RunGushici(event, context):
                 }
             }
     requests.post(url=req_url, json=req_data, headers=header, verify=False)
+
+if __name__ == "__main__":
+    RunGushici(event=None, context=None)
