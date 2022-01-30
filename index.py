@@ -7,6 +7,8 @@ import hashlib
 import base64
 import hmac
 
+SIGN = "q2*****************4g"
+WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
 
 def gen_sign(timestamp, secret):
     # 拼接timestamp和secret
@@ -23,10 +25,10 @@ def RunGushici(event, context):
     GetGuShiCi.GetObjectIdList()
     GetGuShiCi.GetBody()
     timestamp = int(time.time())
-    sign = gen_sign(timestamp, "q2*****************4g")
+    sign = gen_sign(timestamp, SIGN)
 
     header = {"Content-Type": "application/json"}
-    req_url = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
+    req_url = WEBHOOK
     req_data = {"timestamp": str(timestamp),
                 "sign": str(sign),
                 "msg_type": "interactive",

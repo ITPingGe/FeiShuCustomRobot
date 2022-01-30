@@ -20,12 +20,9 @@
 
 ```angular2html
 webhook：
-替换前：req_url = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
-替换后：req_url = "你获取到的webhook"
-
+    WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
 签名：
-替换前：sign = gen_sign(timestamp, "q2*****************4g")
-替换后：sign = gen_sign(timestamp, "你获取到的签名")
+    SIGN = "q2*****************4g"
 ```
 
 3、在腾讯云函数创建一个Python3版本的HelloWord空白模版函数，然后将修改后的代码部署在上边，最后根据个人喜好设置定时触发即可,建议将函数超时时间设置为30s。
