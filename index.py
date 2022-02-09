@@ -1,14 +1,15 @@
 # -*- coding: utf8 -*-
 import json
 from GetGuShiCi import GetGushici
+import HolidayCountdown
 import requests
 import time
 import hashlib
 import base64
 import hmac
 
-SIGN = "q2*****************4g"
-WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
+SIGN = "q2GrmcaZbiuB7QUBHZyu4g"
+WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6136224b-77b9-4a03-9325-de6ff58990e6"
 
 def gen_sign(timestamp, secret):
     # 拼接timestamp和secret
@@ -19,6 +20,12 @@ def gen_sign(timestamp, secret):
     sign = base64.b64encode(hmac_code).decode('utf-8')
 
     return sign
+
+def CountdownCommits():
+    CountdownCommit = ""
+    for Commit in HolidayCountdown.Countdown():
+        CountdownCommit += "{}\n".format(Commit)
+    return CountdownCommit
 
 def RunGushici(event, context):
     GetGuShiCi = GetGushici()
@@ -60,6 +67,10 @@ def RunGushici(event, context):
                             {
                                 "tag": "markdown",
                                 "content": "\n**译文：**\n%s" % GetGuShiCi.GetTranslation()
+                            },
+                            {
+                                "tag": "markdown",
+                                "content": "\n**假期倒计时：**\n{}\n{}".format(HolidayCountdown.WeekendCountdown(), CountdownCommits())
                             },
                             {
                                 "tag": "hr"
