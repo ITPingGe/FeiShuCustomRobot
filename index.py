@@ -8,8 +8,8 @@ import hashlib
 import base64
 import hmac
 
-SIGN = "q2GrmcaZbiuB7QUBHZyu4g"
-WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6136224b-77b9-4a03-9325-de6ff58990e6"
+SIGN = "q******************g"
+WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6**********************6"
 
 def gen_sign(timestamp, secret):
     # 拼接timestamp和secret
