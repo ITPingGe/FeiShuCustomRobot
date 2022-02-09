@@ -28,7 +28,7 @@ def DayCountdown(day): # 获取距离指定日期还有多少天
 def Countdown():
     CountdownList = []
     if DayCountdown(NewYearsDay) > 0:
-        CountdownList.append("距离春节还有{}天；".format(DayCountdown(NewYearsDay)))
+        CountdownList.append("距离元旦还有{}天；".format(DayCountdown(NewYearsDay)))
 
     if DayCountdown(SpringFestival) > 0:
         CountdownList.append("距离春节还有{}天；".format(DayCountdown(SpringFestival)))
@@ -37,7 +37,7 @@ def Countdown():
         CountdownList.append("距离清明节还有{}天；".format(DayCountdown(TombSweepingDay)))
 
     if DayCountdown(MayDay) > 0:
-        CountdownList.append("距离五一还有{}天；".format(DayCountdown(MayDay)))
+        CountdownList.append("距离劳动节还有{}天；".format(DayCountdown(MayDay)))
     if DayCountdown(TheDragonBoatFestival) > 0:
         CountdownList.append("距离端午节还有{}天；".format(DayCountdown(TheDragonBoatFestival)))
 
