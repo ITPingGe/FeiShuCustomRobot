@@ -1,15 +1,19 @@
 # -*- coding: utf8 -*-
 import json
-from GetGuShiCi import GetGushici
-import HolidayCountdown
 import requests
 import time
 import hashlib
 import base64
 import hmac
 
-SIGN = "q******************g"
-WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6**********************6"
+import HolidayCountdown
+import GetWeather
+
+from GetGuShiCi import GetGushici
+
+SIGN = "XXXXXXXXXXXXXXXXX"
+WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/XXXXXXXXXXXXXXXXXXX"
+cityCode = 110108   # 城市编码，在https://lbs.amap.com/api/webservice/download查询
 
 def gen_sign(timestamp, secret):
     # 拼接timestamp和secret
@@ -20,12 +24,6 @@ def gen_sign(timestamp, secret):
     sign = base64.b64encode(hmac_code).decode('utf-8')
 
     return sign
-
-def CountdownCommits():
-    CountdownCommit = ""
-    for Commit in HolidayCountdown.Countdown():
-        CountdownCommit += "{}\n".format(Commit)
-    return CountdownCommit
 
 def RunGushici(event, context):
     GetGuShiCi = GetGushici()
@@ -51,15 +49,15 @@ def RunGushici(event, context):
                     },
                     "i18n_elements": {
                         "zh_cn": [{
-                                "fields": [{
-                                    "is_short": True,
-                                    "text": {
-                                        "content": "**[%s]%s**" % (GetGuShiCi.GetDynasty(), GetGuShiCi.GetAuthorName()),
-                                        "tag": "lark_md"
-                                    }
-                                }],
-                                "tag": "div"
-                            },
+                            "fields": [{
+                                "is_short": True,
+                                "text": {
+                                    "content": "**[%s]%s**" % (GetGuShiCi.GetDynasty(), GetGuShiCi.GetAuthorName()),
+                                    "tag": "lark_md"
+                                }
+                            }],
+                            "tag": "div"
+                        },
                             {
                                 "tag": "markdown",
                                 "content": "\n%s" % GetGuShiCi.GetContent()
@@ -70,7 +68,7 @@ def RunGushici(event, context):
                             },
                             {
                                 "tag": "markdown",
-                                "content": "\n**假期倒计时：**\n{}\n{}".format(HolidayCountdown.WeekendCountdown(), CountdownCommits())
+                                "content": "\n**假期倒计时：**\n{}\n{}".format(HolidayCountdown.NextRestCountdown(), HolidayCountdown.HolidayDesc())
                             },
                             {
                                 "tag": "hr"
@@ -79,14 +77,11 @@ def RunGushici(event, context):
                                 "tag": "note",
                                 "elements": [{
                                     "tag": "plain_text",
-                                    "content": "每日诗词鉴赏"
+                                    "content": "每日诗词鉴赏温馨提示：{}".format(GetWeather.getWeather(cityCode))
                                 }]
                             }
                         ]
                     }
                 }
-            }
+                }
     requests.post(url=req_url, json=req_data, headers=header, verify=False)
-
-if __name__ == "__main__":
-    RunGushici(event=None, context=None)

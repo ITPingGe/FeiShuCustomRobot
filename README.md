@@ -16,13 +16,30 @@
 
 1、在飞书群聊中添加一个自定义机器人，将机器人**安全校验**设置为**签名校验**。
 
-2、将**index.py**文件中的webhook地址及签名替换为你添加的机器人的签名。
+2、在下方提到的文件中搜索对应的字段并进行修改
+
+**index.py**
 
 ```angular2html
 webhook：
     WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
 签名：
     SIGN = "q2*****************4g"
+城市编码：
+    cityCode = 110108
+```
+**GetWeather.py**
+
+```angular2html
+高德应用Key:
+    url = "https://restapi.amap.com/v3/weather/weatherInfo?key=XXXXXXXXXXXXXXXXXXXXXX&extensions=all&city={}".format(cityCode)
+```
+
+**HolidatCountdown.py**
+
+```angular2html
+节假日接口应用key：
+    'key', 'XXXXXXXXXXXXXXXX'
 ```
 
 3、在腾讯云函数创建一个Python3版本的HelloWord空白模版函数，然后将修改后的代码部署在上边，最后根据个人喜好设置定时触发即可,建议将函数超时时间设置为30s。
