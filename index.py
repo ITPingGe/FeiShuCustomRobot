@@ -1,19 +1,19 @@
 # -*- coding: utf8 -*-
-import json
+import os.path
+import yaml
 import requests
 import time
 import hashlib
 import base64
 import hmac
+# import curlify
 
 import HolidayCountdown
 import GetWeather
+import settings
 
 from GetGuShiCi import GetGushici
 
-SIGN = "XXXXXXXXXXXXXXXXX"
-WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/XXXXXXXXXXXXXXXXXXX"
-cityCode = 110108   # 城市编码，在https://lbs.amap.com/api/webservice/download查询
 
 def gen_sign(timestamp, secret):
     # 拼接timestamp和secret
@@ -25,15 +25,15 @@ def gen_sign(timestamp, secret):
 
     return sign
 
-def RunGushici(event, context):
+def RunGushici(RobotWebHook, RobotSign):
     GetGuShiCi = GetGushici()
     GetGuShiCi.GetObjectIdList()
     GetGuShiCi.GetBody()
     timestamp = int(time.time())
-    sign = gen_sign(timestamp, SIGN)
+    sign = gen_sign(timestamp, RobotSign)
 
     header = {"Content-Type": "application/json"}
-    req_url = WEBHOOK
+    req_url = RobotWebHook
     req_data = {"timestamp": str(timestamp),
                 "sign": str(sign),
                 "msg_type": "interactive",
@@ -49,15 +49,15 @@ def RunGushici(event, context):
                     },
                     "i18n_elements": {
                         "zh_cn": [{
-                            "fields": [{
-                                "is_short": True,
-                                "text": {
-                                    "content": "**[%s]%s**" % (GetGuShiCi.GetDynasty(), GetGuShiCi.GetAuthorName()),
-                                    "tag": "lark_md"
-                                }
-                            }],
-                            "tag": "div"
-                        },
+                                "fields": [{
+                                    "is_short": True,
+                                    "text": {
+                                        "content": "**[%s]%s**" % (GetGuShiCi.GetDynasty(), GetGuShiCi.GetAuthorName()),
+                                        "tag": "lark_md"
+                                    }
+                                }],
+                                "tag": "div"
+                            },
                             {
                                 "tag": "markdown",
                                 "content": "\n%s" % GetGuShiCi.GetContent()
@@ -68,7 +68,7 @@ def RunGushici(event, context):
                             },
                             {
                                 "tag": "markdown",
-                                "content": "\n**假期倒计时：**\n{}\n{}".format(HolidayCountdown.NextRestCountdown(), HolidayCountdown.HolidayDesc())
+                                "content": "\n**倒计时：**\n{}\n{}".format(HolidayCountdown.NextRestCountdown(settings.get_now_time()), HolidayCountdown.HolidayDesc(settings.get_juhe_key()))
                             },
                             {
                                 "tag": "hr"
@@ -77,11 +77,23 @@ def RunGushici(event, context):
                                 "tag": "note",
                                 "elements": [{
                                     "tag": "plain_text",
-                                    "content": "每日诗词鉴赏温馨提示：{}".format(GetWeather.getWeather(cityCode))
+                                    "content": "每日诗词鉴赏温馨提示：{}".format(GetWeather.getWeather(settings.get_amap_key(), settings.get_city_code()))
                                 }]
                             }
                         ]
                     }
                 }
-                }
-    requests.post(url=req_url, json=req_data, headers=header, verify=False)
+            }
+    response = requests.post(url=req_url, json=req_data, headers=header, verify=False)
+    # print(curlify.to_curl(response.request))
+    return response
+
+def SendAll(event=None, context=None):
+    for robotInfo in settings.get_robot_info_list():
+        robotWebHook = robotInfo["RobotWebHook"]
+        robotSign = robotInfo["RobotSign"]
+        RunGushici(robotWebHook, robotSign)
+
+if __name__ == "__main__":
+    SendAll(event=None, context=None)
+    # RunGushici('webhook', 'sign')   # 失败手动补偿

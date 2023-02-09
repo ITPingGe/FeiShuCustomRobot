@@ -1,0 +1,17 @@
+# 此文件仅供调试使用，实际部署时需要在云函数上配置环境变量
+
+# 机器人配置
+RobotInfoList:
+  -
+    RobotName: Debug
+    RobotWebHook: https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxxxxxxxxx-xxxxxxxxxxx
+    RobotSign: xxxxxxxxxxxxxxxxx
+
+# 接口文档：https://lbs.amap.com/api/webservice/guide/api/weatherinfo/
+Weather:
+  GaodeKEY: xxxxxxxxxxxxxxxxxxx
+  CityCode: 100000
+
+# 接口文档：https://www.juhe.cn/docs/api/id/177
+Holiday:
+  JuheKey: xxxxxxxxxxxxxxxxxxxxx

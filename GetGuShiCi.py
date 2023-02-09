@@ -2,30 +2,21 @@
 import requests
 import json
 import random
-import time
 
 class GetGushici:
 
     def __init__(self):
         """请求所用到的header"""
         self.headers = {
-            'authority': 'avoscloud.com',
-            'x-lc-ua': 'LeanCloud-JS-SDK/3.15.0 (Browser)',
-            'sec-ch-ua-mobile': '?0',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36',
-            'content-type': 'application/json;charset=UTF-8',
-            'x-lc-sign': '826f2e0504a2809a3ecc382de04c0f1c,1639200943599',
-            'x-lc-id': '9pq709je4y36ubi10xphdpovula77enqrz27idozgry7x644',
-            'x-lc-prod': '1',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96"',
-            'accept': '*/*',
-            'origin': 'http://m.xichuangzhu.com',
-            'sec-fetch-site': 'cross-site',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-dest': 'empty',
-            'referer': 'http://m.xichuangzhu.com/',
-            'accept-language': 'en-VI,en;q=0.9,ar-AE;q=0.8,ar;q=0.7,zh-CN;q=0.6,zh;q=0.5,fa-AF;q=0.4,fa;q=0.3,en-US;q=0.2',
+		'authority': 'avoscloud.com',
+		'accept': '*/*',
+		'accept-language': 'en-VI,en;q=0.9,ar-AE;q=0.8,ar;q=0.7,zh-CN;q=0.6,zh;q=0.5,fa-AF;q=0.4,fa;q=0.3,en-US;q=0.2',
+		'content-type': 'application/json;charset=UTF-8',
+		'origin': 'http://m.xichuangzhu.com',
+		'referer': 'http://m.xichuangzhu.com/',
+		'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
+		'x-lc-id': '9pq709je4y36ubi10xphdpovula77enqrz27idozgry7x644',
+		'x-lc-sign': 'bef0d00c0285f26dd69d3aa201890cbb,1673528504681'
         }
         self.objectIdList = []                   # 用于存储诗单ID的空列表
         self.place = int
