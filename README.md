@@ -18,28 +18,21 @@
 
 2、在下方提到的文件中搜索对应的字段并进行修改
 
-**index.py**
+**config.yml**
 
 ```angular2html
 webhook：
-    WEBHOOK = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
+    RobotWebHook = "https://open.feishu.cn/open-apis/bot/v2/hook/6*******-****-****-****-***********6"
 签名：
-    SIGN = "q2*****************4g"
-城市编码：
-    cityCode = 110108
-```
-**GetWeather.py**
+    RobotSign = "q2*****************4g"
 
-```angular2html
 高德应用Key:
-    url = "https://restapi.amap.com/v3/weather/weatherInfo?key=XXXXXXXXXXXXXXXXXXXXXX&extensions=all&city={}".format(cityCode)
-```
+    GaodeKEY: xxxxxxxxxxxxxxxxxxx
+城市编码：
+    CityCode = 110108
 
-**HolidatCountdown.py**
-
-```angular2html
 节假日接口应用key：
-    'key', 'XXXXXXXXXXXXXXXX'
+    JuheKey: xxxxxxxxxxxxxxxxxxxxx
 ```
 
 3、在腾讯云函数创建一个Python3版本的HelloWord空白模版函数，然后将修改后的代码部署在上边，最后根据个人喜好设置定时触发即可,建议将函数超时时间设置为30s。
